@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.shoujopomodoro.ui.component.EnhancedCircularTimerIndicator
-import com.shoujopomodoro.ui.component.EnhancedShoujoCharacter
+import com.shoujopomodoro.ui.component.ShoujoCharacter
 import com.shoujopomodoro.ui.component.EnhancedMusicPlayerBar
 import com.shoujopomodoro.ui.component.ParticleBackground
 import com.shoujopomodoro.ui.component.PhaseLabel
@@ -141,8 +141,8 @@ fun TimerScreen(
                     strokeWidth = 10.dp
                 )
 
-                // Enhanced anime character with animations
-                EnhancedShoujoCharacter(
+                // Shoujo character
+                ShoujoCharacter(
                     characterState = uiState.characterState,
                     size = 220.dp
                 )
