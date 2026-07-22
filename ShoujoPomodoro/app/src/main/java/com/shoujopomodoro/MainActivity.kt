@@ -13,7 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.shoujopomodoro.ui.navigation.NavGraph
-import com.shoujopomodoro.ui.theme.ShoujoPomodoroTheme
+import com.shoujopomodoro.ui.theme.ShoujoPomodoroEnhancedTheme
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ShoujoPomodoroTheme {
+            ShoujoPomodoroEnhancedTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

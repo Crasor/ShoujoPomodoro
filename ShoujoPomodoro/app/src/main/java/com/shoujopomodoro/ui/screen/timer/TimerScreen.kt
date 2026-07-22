@@ -28,17 +28,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import com.shoujopomodoro.R
+import com.shoujopomodoro.ui.component.TimerControlButtons
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.shoujopomodoro.R
-import com.shoujopomodoro.ui.component.CircularTimerIndicator
+import com.shoujopomodoro.ui.component.EnhancedCircularTimerIndicator
+import com.shoujopomodoro.ui.component.EnhancedShoujoCharacter
+import com.shoujopomodoro.ui.component.EnhancedMusicPlayerBar
+import com.shoujopomodoro.ui.component.ParticleBackground
 import com.shoujopomodoro.ui.component.PhaseLabel
-import com.shoujopomodoro.ui.component.ShoujoCharacter
-import com.shoujopomodoro.ui.component.TimerControlButtons
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -78,14 +80,16 @@ fun TimerScreen(
                     actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 actions = {
-                    // Live system clock in top bar
-                    Text(
-                        text = currentTime,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
+                    // Live system clock in top bar (only shown when clock position is top_bar)
+                    if (uiState.clockPosition == "top_bar") {
+                        Text(
+                            text = currentTime,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
                     IconButton(onClick = onNavigateToTasks) {
                         Icon(Icons.Default.Checklist, contentDescription = stringResource(R.string.tasks))
                     }
@@ -104,6 +108,17 @@ fun TimerScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Clock at center when clock position is "center"
+            if (uiState.clockPosition == "center") {
+                Text(
+                    text = currentTime,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             // Phase label
             PhaseLabel(
                 phase = uiState.phase,
@@ -118,17 +133,16 @@ fun TimerScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.size(300.dp)
             ) {
-                // Circular timer as background ring
-                CircularTimerIndicator(
+                // Enhanced circular timer with glow and particles
+                EnhancedCircularTimerIndicator(
                     progress = uiState.progress,
-                    timeText = "", // Time displayed below
                     phase = uiState.phase,
                     containerSize = 300.dp,
                     strokeWidth = 10.dp
                 )
 
-                // Character in the center
-                ShoujoCharacter(
+                // Enhanced anime character with animations
+                EnhancedShoujoCharacter(
                     characterState = uiState.characterState,
                     size = 220.dp
                 )
@@ -154,6 +168,13 @@ fun TimerScreen(
                 onPause = { viewModel.onPause() },
                 onReset = { viewModel.onReset() },
                 onSkip = { viewModel.onSkip() }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Music player bar
+            EnhancedMusicPlayerBar(
+                musicPaths = uiState.musicPaths
             )
 
             Spacer(modifier = Modifier.height(24.dp))
